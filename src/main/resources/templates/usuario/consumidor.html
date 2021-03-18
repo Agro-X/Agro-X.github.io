@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" layout:decorate="~{layoutCliente}">
+<head>
+<meta charset="utf-8">
+<title>Cadastro Consumidor</title>
+</head>
+<body>
+	<section layout:fragment="corpo">
+
+		<br /> <br /> <br> <br> <br /> <br />
+
+		<div class="card text-center" style="margin: auto; width: 400px;">
+			<div class="card-header">Cadastro Consumidor</div>
+			<div class="card-body d-flex justify-content-center">
+				<form th:action="@{/usuarioConsumidor/salvar}"
+					th:object="${usuario}" method="POST">
+					<input type="hidden" th:field="${usuario.id}" /> <br />
+					<!-- tabela para cadastro do cliente consumidor -->
+					<table>
+						<tr>
+							<td>Nome:</td>
+							<td><input type="text" th:field="${usuario.nome}" /></td>
+						</tr>
+						<tr>
+							<td>CPF:</td>
+							<td><input type="text" th:field="${usuario.cpf}" /></td>
+						</tr>
+
+						<tr>
+							<td>Email: <img src="/imagens/mail.jpg"
+								style="height: 12px;" />
+							</td>
+							<td><input type="email" th:field="${usuario.email}" /></td>
+						</tr>
+
+						<tr>
+							<td>Senha:</td>
+							<td><input type="password" th:field="${usuario.senha}">
+							</td>
+						</tr>
+
+						<tr>
+							<td>Sexo:</td>
+							<td><input type="radio" th:field="${usuario.sexo}"
+								th:value="M"> Masculino <input type="radio"
+								th:field="${usuario.sexo}" th:value="F"> Feminino</td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<!-- botoões de cadastrar e cancelar -->
+							<td><input type="submit"
+								th:value="${usuario.id} == 0 ? Cadastrar : Editar"
+								class="btn btn-primary" /> <input type="submit"
+								value="Cancelar" formaction="/" formmethod="GET"
+								class="btn btn-danger" /></td>
+						</tr>
+					</table>
+				</form>
+				<br />
+			</div>
+			<div th:replace="fragmentos/mensagens"></div>
+		</div>
+	</section>
+</body>
+</html>

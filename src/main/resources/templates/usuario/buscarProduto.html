@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR" layout:decorate="~{layoutProduto}">
+<head>
+<meta charset="utf-8">
+<title>Busca do Produto</title>
+</head>
+<body>
+	<section layout:fragment="corpo">
+
+		<br /> <br /> <br> <br> <br /> <br />
+
+		<div class="card text-center"
+			style="margin: auto; width: 800px; max-width: 750px">
+			<div class="card-header">Buscar Produto</div>
+			<div class="card-body d-flex justify-content-center">
+				<form th:action="@{/bcProduto/buscar}" method="get">
+					<!-- tabela responsável pela busca do produto -->
+					<table>
+						<tr>
+							<td>Nome:</td>
+							<td><input type="text" th:name="nome" /></td>
+						</tr>
+						<tr>
+							<td>Categoria:</td>
+							<td><input type="text" th:name="categoria" /></td>
+						</tr>
+						<tr>
+							<td colspan="2"><input type="checkbox"
+								th:name="mostrarTodosDados" th:value="true" /> Mostrar todos os
+								dados do produto</td>
+						</tr>
+						<tr>
+							<td></td>
+							<!-- botões de buscar e cancelar -->
+							<td><input type="submit" value="Buscar"
+								class="btn btn-primary" /> <input type="submit"
+								value="Cancelar" formaction="/" formmethod="get"
+								class="btn btn-danger" /></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<!-- serve para mostrar todos os dados -->
+			<div th:if="${usuariosEncontrados != null}">
+				<table>
+					<tr>
+						<th>Foto</th>
+						<th>Nome</th>
+						<th>Categoria</th>
+						<th>CEP(Produtor)</th>
+						<th>Telefone(Produtor)</th>
+						<th th:if="${mostrarTodosDados} == true">Descrição</th>
+					</tr>
+					<!-- edição e remoção dos dados -->
+					<tr th:each="u : ${usuariosEncontrados}">
+						<td><img th:if="${u.foto != null}"
+							th:src="@{/download/} + ${u.foto.id} + '?salvar=false'"
+							style="max-height: 128px;" /></td>
+						<td th:text="${u.nome}"></td>
+						<td th:text="${u.categoria.nome}"></td>
+						<td th:text="${u.cep}"></td>
+						<td th:text="${u.tel}"></td>
+						<td th:if="${mostrarTodosDados} == true" th:text="${u.descricao}"></td>
+						<td><a th:href="'/bcProduto/editar/' + ${u.idProduto}"
+							th:if="${#authentication.getPrincipal().getUsername() == u.produtor.email}">
+								Editar </a> <a th:href="'/bcProduto/remover/' + ${u.idProduto}"
+							th:if="${#authentication.getPrincipal().getUsername() == u.produtor.email}"
+							onclick="if (!confirm('Deseja realmente remover o usuário?')) return false;">Remover</a>
+						</td>
+					</tr>
+				</table>
+				<div th:replace="fragmentos/mensagens"></div>
+			</div>
+			<br>
+		</div>
+	</section>
+</body>
+</html>

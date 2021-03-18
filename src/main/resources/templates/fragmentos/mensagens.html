@@ -1,0 +1,20 @@
+//classe responsável pelas mensagens de alerta
+
+<div class="alert alert-success" role="alert"
+	th:if="${msgSucesso} != null">
+	<b th:text="${msgSucesso}" style="color: black;"> </b> <br /> <br />
+</div>
+
+
+<div class="alert alert-success" role="alert" th:if="${msgErro} != null">
+	<b th:text="${msgErro}" style="color: red;"> </b> <br /> <br />
+</div>
+
+<div th:if="${msgsErro} != null">
+
+	<ul>
+		<li th:each="m : ${msgsErro}"><b th:text="${m}"
+			style="color: red;"> </b></li>
+	</ul>
+
+</div>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR" layout:decorate="~{layoutBusca}">
+<head>
+<meta charset="utf-8">
+<title>Buscar Consumidor</title>
+</head>
+<body>
+	<section layout:fragment="corpo">
+
+		<br /> <br /> <br /> <br /> <br /> <br />
+
+		<div class="card text-center" style="margin: auto; width: 450px;">
+			<div class="card-header">Buscar Consumidor</div>
+			<div class="card-body d-flex justify-content-center">
+				<form th:action="@{/consumidor/buscar}" method="get">
+					<!-- tabela responsável pela busca do cliente consumidor -->
+					<table>
+						<tr>
+							<td>Nome:</td>
+							<td><input type="text" th:name="nome" /></td>
+						</tr>
+
+						<tr>
+							<td>Email:</td>
+							<td><input type="email" th:name="email" /></td>
+						</tr>
+
+						<tr>
+							<td colspan="2"><input type="checkbox"
+								th:name="mostrarTodosDados" th:value="true" /> Mostrar todos os
+								dados dos usuários</td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<!-- botões de buscar e cancelar -->
+							<td><input type="submit" value="Buscar"
+								class="btn btn-primary" /> <input type="submit"
+								value="Cancelar" formaction="/" formmethod="get"
+								class="btn btn-danger" /></td>
+						</tr>
+					</table>
+			</div>
+			</form>
+			<!-- serve para mostrar todos os dados -->
+			<div th:if="${usuariosEncontrados != null}">
+				<table>
+					<tr>
+						<th>Nome</th>
+						<th>CPF</th>
+						<th>Email</th>
+						<th th:if="${mostrarTodosDados} == true">Sexo</th>
+					</tr>
+					<!-- edição e remoção dos dados -->
+					<tr>
+					<tr th:each="u : ${usuariosEncontrados}">
+						<td th:text="${u.nome}"></td>
+						<td th:text="${u.cpf}"></td>
+						<td th:text="${u.email}"></td>
+						<td th:if="${mostrarTodosDados} == true" th:text="${u.sexo}">
+						<td><a th:href="'/consumidor/editar/' + ${u.id}"
+							th:if="${#authentication.getPrincipal().getUsername() == u.email}">
+								Editar </a> <a th:href="'/consumidor/remover/' + ${u.id}"
+							th:if="${#authentication.getPrincipal().getUsername() == u.email}"
+							onclick="if (!confirm('Deseja realmente remover o usuário?')) return false;">
+								Remover </a></td>
+					</tr>
+				</table>
+			</div>
+			<div th:replace="fragmentos/mensagens"></div>
+		</div>
+	</section>
+</body>
+</html>
